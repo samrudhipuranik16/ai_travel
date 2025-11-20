@@ -21,25 +21,50 @@ Activity Type: ${type}
 Give answer in bullet points.
   `;
 
+  let aiText = "";
+
   try {
-    // Call your backend serverless API
+    // Try real API if deployed on Vercel
     const res = await fetch("/api/gemini", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt })
     });
 
-    const data = await res.json();
+    if (res.ok) {
+      const data = await res.json();
+      aiText = data?.reply || "No response received.";
+    } else {
+      console.warn("API returned error, using mock response.");
+    }
 
-    // Save AI result to localStorage
-    const aiText = data?.reply || "No response received.";
-    localStorage.setItem("ai_result", aiText);
-
-    // Redirect to results.html
-    window.location.href = "results.html";
-
-  } catch (error) {
-    alert("Something went wrong: " + error);
-    console.error(error);
+  } catch (err) {
+    console.warn("Fetch failed, using mock response.", err);
   }
+
+  // If API failed, use MOCK response (works locally)
+  if (!aiText) {
+    aiText = `
+Hotels in ${to}:
+- ${to} Grand Hotel
+- Cozy Stay ${to}
+- Luxury Suites ${to}
+
+Restaurants in ${to}:
+- The ${to} Bistro
+- Food Paradise
+- Gourmet Hub
+
+Places to Visit in ${to}:
+- ${to} Museum
+- Central Park of ${to}
+- ${to} Historical Center
+    `;
+  }
+
+  // Save result to localStorage
+  localStorage.setItem("ai_result", aiText);
+
+  // Redirect to results.html
+  window.location.href = "results.html";
 }

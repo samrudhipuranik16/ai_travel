@@ -6,12 +6,19 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>AI Trip Suggestions</h1>
-  <pre id="results"></pre>
+  <header class="header-bar">
+    <div class="logo">✈️ PlanVise</div>
+  </header>
+
+  <main>
+    <h1>AI Trip Suggestions</h1>
+    <pre id="results">Loading...</pre>
+    <button onclick="window.history.back()">Back to Form</button>
+  </main>
 
   <script>
-    // Get AI response from localStorage
-    const results = localStorage.getItem("ai_result") || "No results found";
+    // Display AI response from localStorage
+    const results = localStorage.getItem("ai_result") || "No results found.";
     document.getElementById("results").textContent = results;
   </script>
 </body>
