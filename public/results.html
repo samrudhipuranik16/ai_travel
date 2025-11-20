@@ -8,6 +8,7 @@
   <style>
     body {
       padding-top: 80px;
+      background: #f5f7fa;
     }
 
     main {
@@ -48,12 +49,6 @@
       background: #d4edda;
       color: #155724;
       border: 1px solid #c3e6cb;
-    }
-
-    .status-banner.mock {
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffeeba;
     }
 
     .trip-details {
@@ -140,9 +135,7 @@
   </style>
 </head>
 <body>
-  <!-- Background image -->
-  <img src="https://plus.unsplash.com/premium_photo-1673240367277-e1d394465b56?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91bnRhaW58ZW58MHx8MHx8fDA%3D" 
-       alt="Background" class="bg-image">
+
 
   <!-- Header -->
   <header class="header-bar">
@@ -191,14 +184,15 @@
       } else {
         const resultData = JSON.parse(storedData);
         
-        // Display status banner
+        // Display status banner - only show if real AI results
         const statusBanner = document.getElementById("status-banner");
         if (resultData.apiSuccess) {
           statusBanner.className = "status-banner success";
-          statusBanner.innerHTML = '<i class="fas fa-check-circle"></i> AI-Generated Suggestions';
+          statusBanner.innerHTML = '<i class="fas fa-check-circle"></i> AI-Generated Recommendations';
+          statusBanner.style.display = 'block';
         } else {
-          statusBanner.className = "status-banner mock";
-          statusBanner.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Sample Data (API temporarily unavailable)';
+          // If not from real API, this shouldn't happen anymore
+          statusBanner.style.display = 'none';
         }
         
         // Display trip details

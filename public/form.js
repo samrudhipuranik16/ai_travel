@@ -10,7 +10,7 @@ async function handleForm(event) {
   const type = document.getElementById("vacation-type").value;
 
   const prompt = `
-Generate 3 hotel suggestions, 3 restaurant suggestions, and 3 places to visit for a trip.
+Generate exactly 3 hotel recommendations, 3 restaurant recommendations, and 3 places to visit for this trip.
 
 Trip Details:
 - From: ${from}
@@ -20,12 +20,27 @@ Trip Details:
 - Number of People: ${people}
 - Activity Type: ${type}
 
-Please format the response with clear sections:
-Hotels:
-Restaurants:
-Places to Visit:
+Please provide real, specific recommendations with:
+1. The actual name of the hotel/restaurant/place
+2. A brief description (1-2 sentences)
+3. Why it's suitable for this trip
 
-For each suggestion, include the name and a brief description.
+Format the response clearly with sections:
+
+HOTELS:
+1. [Hotel Name] - [Description]
+2. [Hotel Name] - [Description]
+3. [Hotel Name] - [Description]
+
+RESTAURANTS:
+1. [Restaurant Name] - [Description]
+2. [Restaurant Name] - [Description]
+3. [Restaurant Name] - [Description]
+
+PLACES TO VISIT:
+1. [Place Name] - [Description]
+2. [Place Name] - [Description]
+3. [Place Name] - [Description]
   `;
 
   // Show loading state (optional but recommended)
