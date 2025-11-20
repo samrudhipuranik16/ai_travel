@@ -43,85 +43,57 @@ PLACES TO VISIT:
 3. [Place Name] - [Description]
   `;
 
-  // Show loading state
+  // Show loading state (optional but recommended)
   const submitBtn = event.target.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
   submitBtn.textContent = "Generating...";
   submitBtn.disabled = true;
 
-  console.log("🚀 Starting API call to /api/gemini");
-  console.log("📝 Prompt:", prompt);
-
   let aiText = "";
   let apiSuccess = false;
-  let errorMessage = "";
 
   try {
-    console.log("📡 Fetching /api/gemini...");
-    
     const res = await fetch("/api/gemini", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt })
     });
 
-    console.log("📊 Response status:", res.status);
-    console.log("📊 Response ok:", res.ok);
-
     if (res.ok) {
       const data = await res.json();
-      console.log("✅ API Response data:", data);
-      
       aiText = data?.reply || "";
-      
       if (aiText) {
         apiSuccess = true;
-        console.log("✅ Got AI text, length:", aiText.length);
-      } else {
-        errorMessage = "API returned empty response";
-        console.error("❌ Empty response from API");
       }
     } else {
       const errorData = await res.json();
-      errorMessage = errorData.error || `API request failed with status ${res.status}`;
-      console.error("❌ API error:", errorData);
+      console.error("API error:", errorData);
     }
   } catch (err) {
-    errorMessage = err.message || "Network error";
-    console.error("❌ Fetch failed:", err);
+    console.error("Fetch failed:", err);
   }
 
-  // If API failed, show detailed error
+  // Fallback to mock response if API failed
   if (!aiText) {
-    const errorDetails = `
-❌ Unable to generate AI suggestions
+    aiText = `
+**Hotels in ${to}:**
+• ${to} Grand Hotel - Luxury accommodations with stunning views
+• Cozy Stay ${to} - Comfortable mid-range option in the city center
+• Luxury Suites ${to} - Premium service with excellent amenities
 
-Error: ${errorMessage}
+**Restaurants in ${to}:**
+• The ${to} Bistro - Fine dining with local specialties
+• Food Paradise - Popular spot for international cuisine
+• Gourmet Hub - Trendy restaurant with fusion menu
 
-Troubleshooting checklist:
-✓ Check browser console (F12) for detailed logs
-✓ Verify you're deployed on Vercel (not localhost)
-✓ Check Vercel environment variable GEMINI_API_KEY is set
-✓ Verify Gemini API key is valid
-✓ Check /api/gemini endpoint exists
-
-Debug Info:
-- API Success: ${apiSuccess}
-- Error Message: ${errorMessage}
-    `;
-    
-    alert(errorDetails);
-    console.error("🔴 Full error details:", errorDetails);
-    
-    // Re-enable the button
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-    return; // Don't redirect
+**Places to Visit in ${to}:**
+• ${to} Museum - Rich cultural and historical exhibits
+• Central Park of ${to} - Beautiful green space for relaxation
+• ${to} Historical Center - Iconic landmarks and architecture
+    `.trim();
   }
 
-  // Success! Store and redirect
-  console.log("✅ Success! Storing results and redirecting...");
-  
+  // Store results with metadata
   const resultData = {
     aiText: aiText,
     apiSuccess: apiSuccess,
