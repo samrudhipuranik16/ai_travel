@@ -62,6 +62,12 @@ Places to Visit in ${to}:
     `;
   }
 
+  const formattedText = aiText
+  .replace(/\r\n/g, "\n")       // Normalize line breaks
+  .replace(/\n{2,}/g, "\n\n")  // Ensure only one empty line between sections
+  .trim();
+
+
   // Save result to localStorage
   localStorage.setItem("ai_result", aiText);
 
