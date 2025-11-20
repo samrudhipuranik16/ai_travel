@@ -13,12 +13,11 @@ export default async function handler(req, res) {
 
     const result = await model.generateContent(prompt);
 
-    // Correct way to extract text
     const text = result.output?.[0]?.content?.[0]?.text || "No response";
 
     res.status(200).json({ reply: text });
   } catch (err) {
-    console.error("API error:", err);
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 }
