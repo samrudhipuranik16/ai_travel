@@ -9,52 +9,82 @@ async function handleForm(event) {
   const people = document.getElementById("people").value;
   const type = document.getElementById("vacation-type").value;
 
-  const submitBtn = event.submitter;
+  const prompt = `
+Generate exactly 3 hotel recommendations, 3 restaurant recommendations, and 3 places to visit for this trip.
+
+Trip Details:
+- From: ${from}
+- To: ${to}
+- Start Date: ${start}
+- Duration: ${days} days
+- Number of People: ${people}
+- Activity Type: ${type}
+
+Please provide real, specific recommendations with:
+1. The actual name of the hotel/restaurant/place
+2. A brief description (1-2 sentences)
+3. Why it's suitable for this trip
+
+Format the response clearly with sections:
+
+HOTELS:
+1. [Hotel Name] - [Description]
+2. [Hotel Name] - [Description]
+3. [Hotel Name] - [Description]
+
+RESTAURANTS:
+1. [Restaurant Name] - [Description]
+2. [Restaurant Name] - [Description]
+3. [Restaurant Name] - [Description]
+
+PLACES TO VISIT:
+1. [Place Name] - [Description]
+2. [Place Name] - [Description]
+3. [Place Name] - [Description]
+  `;
+
+  // Show loading state
+  const submitBtn = event.target.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
-  
-  // Disable button and show loading state
-  submitBtn.textContent = "Planning Trip...";
+  submitBtn.textContent = "Generating...";
   submitBtn.disabled = true;
 
-  let aiText = null;
+  console.log("🚀 Starting API call to /api/gemini");
+  console.log("📝 Prompt:", prompt);
+
+  let aiText = "";
   let apiSuccess = false;
-  let errorMessage = "Unknown error";
-  
-  // Prepare payload - keys match the new index.js (from, to, start, days, people, type)
-  const payload = {
-    from,
-    to,
-    start,
-    days,
-    people,
-    type,
-  };
+  let errorMessage = "";
 
   try {
-    // --- FIX: Correcting the endpoint URL from /api/gemini to /api/generate ---
-    // Assuming your index.js file is placed in an 'api' directory in your Vercel project
-    const res = await fetch("/api/generate", {
+    console.log("📡 Fetching /api/gemini...");
+    
+    const res = await fetch("/api/gemini", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
     });
 
-    const data = await res.json();
-    
+    console.log("📊 Response status:", res.status);
+    console.log("📊 Response ok:", res.ok);
+
     if (res.ok) {
-      if (data.response) {
-        aiText = data.response;
+      const data = await res.json();
+      console.log("✅ API Response data:", data);
+      
+      aiText = data?.reply || "";
+      
+      if (aiText) {
         apiSuccess = true;
+        console.log("✅ Got AI text, length:", aiText.length);
       } else {
-        errorMessage = "API returned success status but no 'response' field.";
-        console.error("❌ API returned unexpected data:", data);
+        errorMessage = "API returned empty response";
+        console.error("❌ Empty response from API");
       }
     } else {
-      // Handle API errors (e.g., 500 status from the serverless function)
-      errorMessage = data.error || `API request failed with status ${res.status}`;
-      console.error("❌ API error:", data);
+      const errorData = await res.json();
+      errorMessage = errorData.error || `API request failed with status ${res.status}`;
+      console.error("❌ API error:", errorData);
     }
   } catch (err) {
     errorMessage = err.message || "Network error";
@@ -69,17 +99,18 @@ async function handleForm(event) {
 Error: ${errorMessage}
 
 Troubleshooting checklist:
-✓ Check Vercel environment variable GEMINI_API_KEY is set (CRITICAL)
-✓ Verify the deployed path is correct (e.g., /api/generate)
-✓ Check Vercel logs for detailed backend errors
-✓ The "gemini pro not found" error usually means the API key is invalid or missing.
+✓ Check browser console (F12) for detailed logs
+✓ Verify you're deployed on Vercel (not localhost)
+✓ Check Vercel environment variable GEMINI_API_KEY is set
+✓ Verify Gemini API key is valid
+✓ Check /api/gemini endpoint exists
 
 Debug Info:
 - API Success: ${apiSuccess}
 - Error Message: ${errorMessage}
     `;
     
-    // DO NOT use alert(), use console for non-critical alerts in this environment
+    alert(errorDetails);
     console.error("🔴 Full error details:", errorDetails);
     
     // Re-enable the button
@@ -97,14 +128,17 @@ Debug Info:
     tripDetails: {
       from,
       to,
-      start, // 'start' is the correct key
-      days,  // 'days' is the correct key
+      start,
+      days,
       people,
-      type,  // 'type' is the correct key
-    }
+      type
+    },
+    timestamp: new Date().toISOString()
   };
 
-  // Use sessionStorage to pass data to results.html
-  sessionStorage.setItem('aiTripResults', JSON.stringify(resultData));
-  window.location.href = 'results.html';
+  sessionStorage.setItem("ai_result", JSON.stringify(resultData));
+  console.log("💾 Stored in sessionStorage:", resultData);
+
+  // Redirect to results page
+  window.location.href = "results.html";
 }
