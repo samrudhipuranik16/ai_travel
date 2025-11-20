@@ -82,25 +82,27 @@
 
   <script>
     const aiText = localStorage.getItem("ai_result") || "No results found.";
-
     const container = document.getElementById("results");
 
+    // Normalize line breaks and ensure proper separation
+    const normalizedText = aiText.replace(/\r\n/g, "\n").replace(/\n{2,}/g, "\n\n");
+
     // Split AI text into sections
-    const sections = aiText.split("\n\n");
-    
+    const sections = normalizedText.split(/\n\s*\n/);
+
     sections.forEach(section => {
       const lines = section.trim().split("\n");
       if (lines.length > 1) {
-        const title = lines[0].replace(":", ""); // e.g., Hotels in Goa
-        const items = lines.slice(1).map(line => line.replace(/^- /, ""));
-        
+        const title = lines[0].replace(":", "");
+        const items = lines.slice(1).map(line => line.replace(/^- /, "").trim());
+
         const col = document.createElement("div");
         col.className = "column";
-        
+
         const h2 = document.createElement("h2");
         h2.textContent = title;
         col.appendChild(h2);
-        
+
         const ul = document.createElement("ul");
         items.forEach(item => {
           if(item) {
@@ -109,6 +111,7 @@
             ul.appendChild(li);
           }
         });
+
         col.appendChild(ul);
         container.appendChild(col);
       }

@@ -33,11 +33,10 @@ Give answer in bullet points.
 
     if (res.ok) {
       const data = await res.json();
-      aiText = data?.reply || "No response received.";
+      aiText = data?.reply || "";
     } else {
       console.warn("API returned error, using mock response.");
     }
-
   } catch (err) {
     console.warn("Fetch failed, using mock response.", err);
   }
@@ -62,14 +61,14 @@ Places to Visit in ${to}:
     `;
   }
 
+  // Format AI text to ensure proper section separation
   const formattedText = aiText
-  .replace(/\r\n/g, "\n")       // Normalize line breaks
-  .replace(/\n{2,}/g, "\n\n")  // Ensure only one empty line between sections
-  .trim();
-
+    .replace(/\r\n/g, "\n")       // Normalize line breaks
+    .replace(/\n{2,}/g, "\n\n")  // Ensure one blank line between sections
+    .trim();
 
   // Save result to localStorage
-  localStorage.setItem("ai_result", aiText);
+  localStorage.setItem("ai_result", formattedText);
 
   // Redirect to results.html
   window.location.href = "results.html";
