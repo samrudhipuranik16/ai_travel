@@ -76,20 +76,23 @@ PLACES TO VISIT:
   // Fallback to mock response if API failed
   if (!aiText) {
     aiText = `
-**Hotels in ${to}:**
-• ${to} Grand Hotel - Luxury accommodations with stunning views
-• Cozy Stay ${to} - Comfortable mid-range option in the city center
-• Luxury Suites ${to} - Premium service with excellent amenities
+Hotels in ${to}:
 
-**Restaurants in ${to}:**
-• The ${to} Bistro - Fine dining with local specialties
-• Food Paradise - Popular spot for international cuisine
-• Gourmet Hub - Trendy restaurant with fusion menu
+• Fairfield by Marriott, Anjuna- Luxury accommodations with stunning views
+• Marquis Beach Resort, Candolim - Beachfront resort with lush gardens, pool, and spa
+• Neelams The Grand, Calangute  – Boutique-style hotel close to Calangute Beach and nightlife.
 
-**Places to Visit in ${to}:**
-• ${to} Museum - Rich cultural and historical exhibits
-• Central Park of ${to} - Beautiful green space for relaxation
-• ${to} Historical Center - Iconic landmarks and architecture
+Restaurants in ${to}:
+
+• Mum’s Kitchen, Panaji — Cozy Goan restaurant serving traditional, homemade Goan recipes passed down through generations
+• Thalassa, Siolim — Lively cliff‑top Greek‑Mediterranean spot with amazing sunset views and party vibes.
+• Zeebop by the Sea, Utorda — Beachside shack serving fresh Goan seafood right by the waves
+
+Places to Visit in ${to}:
+
+• Tito’s Lane, Baga Beach — Famous party street with a cluster of clubs, bars, and lively night events.
+• Club Cubana, Arpora — Hilltop club known as the “Nightclub in the Sky” with vibrant music and pool parties.
+• Mambo’s, Baga Beach — Iconic beachside nightclub offering great music, drinks, and dancing until late night
     `.trim();
   }
 
