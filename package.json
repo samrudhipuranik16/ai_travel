@@ -1,0 +1,11 @@
+{
+  "name": "planvise-proxy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "@google/generative-ai": "latest",
+    "express": "latest",
+    "cors": "latest"
+  }
+}

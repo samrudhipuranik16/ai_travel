@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header-bar">
+    <div class="logo">✈️ PlanVise</div>
+    <nav class="header-icons">
+      <i class="fas fa-home" onclick='dashboard.html'></i>
+      <i class="fas fa-cog" onclick="window.location.href='settings.html'"></i>
+      <i class="fas fa-user" onclick="window.location.href='profile.html'"></i>
+    </nav>
+  </header>
+
+  <main>
+      <img src="https://plus.unsplash.com/premium_photo-1673240367277-e1d394465b56?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91bnRhaW58ZW58MHx8MHx8fDA%3D"  alt="Background" class="bg-image">
+
+    <h1>Welcome!</h1>
+    <p>Let's plan your next trip !</p>
+    <br>
+    <!-- <button onclick="openChat()">💬 Open Chatbox</button> -->
+    <button onclick="window.location.href='book.html'">📝 Book Travel</button>
+  </main>
+<!-- Small Chat Icon -->
+<div id="chat-icon" class="chat-icon" onclick="openChat()">
+  💬
+</div>
+
+<!-- Chatbox -->
+<div id="chatbox" class="chatbox">
+  <div class="chat-header">
+    Travel Assistant
+    <span class="close-btn" onclick="closeChat()">✖</span>
+  </div>
+  <div class="chat-messages"></div>
+  <input type="text" placeholder="Type a message..." onkeypress="sendMessage(event)">
+</div>
+
+  <script src="chatbox.js"></script>
+</body>
+</html>
