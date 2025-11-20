@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AI Travel Suggestions</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    pre { white-space: pre-wrap; background: #f4f4f4; padding: 15px; border-radius: 10px; }
-  </style>
+  <meta charset="UTF-8">
+  <title>Trip Results</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <h1>AI Trip Suggestions</h1>
+  <pre id="results"></pre>
 
-<h2>Your Travel Suggestions</h2>
-
-<pre id="output"></pre>
-
-<script>
-  document.getElementById("output").textContent =
-    localStorage.getItem("ai_result") || "No data found.";
-</script>
-
+  <script>
+    // Get AI response from localStorage
+    const results = localStorage.getItem("ai_result") || "No results found";
+    document.getElementById("results").textContent = results;
+  </script>
 </body>
 </html>

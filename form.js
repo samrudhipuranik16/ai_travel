@@ -1,7 +1,5 @@
-// form.js
-
 async function handleForm(event) {
-  event.preventDefault();
+  event.preventDefault(); // prevent default form submission
 
   // Get form values
   const from = document.getElementById("from").value;
@@ -11,7 +9,6 @@ async function handleForm(event) {
   const people = document.getElementById("people").value;
   const type = document.getElementById("vacation-type").value;
 
-  // Construct prompt for Gemini AI
   const prompt = `
 Generate 3 hotel suggestions, 3 restaurant suggestions, and 3 places to visit.
 Trip Details:
@@ -25,29 +22,20 @@ Give answer in bullet points.
   `;
 
   try {
-    // Call Gemini API directly
-    const res = await fetch(
-      "https://generativeai.googleapis.com/v1beta2/models/gemini-pro:generateText",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer AIzaSyAZvy214LqCc6Ci7jzdJcMhz45vsEPtFjY" // 
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-          // Optional: add temperature or other parameters if needed
-        })
-      }
-    );
+    // Call your backend serverless API
+    const res = await fetch("/api/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
 
     const data = await res.json();
 
-    // Extract AI text (adjust according to Gemini response structure)
-    const aiText = data?.candidates?.[0]?.content || "No response received.";
-
-    // Store AI result and redirect to results page
+    // Save AI result to localStorage
+    const aiText = data?.reply || "No response received.";
     localStorage.setItem("ai_result", aiText);
+
+    // Redirect to results.html
     window.location.href = "results.html";
 
   } catch (error) {
