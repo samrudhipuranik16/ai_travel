@@ -21,7 +21,7 @@ Give answer in bullet points.
   `;
 
   try {
-    const res = await fetch("https://planvise-proxy.vercel.app/api/gemini", {
+    const res = await fetch("/api/gemini", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt })
@@ -29,9 +29,7 @@ Give answer in bullet points.
 
     const data = await res.json();
 
-    const aiText =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No response received.";
+    const aiText = data?.reply || "No response received.";
 
     localStorage.setItem("ai_result", aiText);
 

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Travel Suggestions</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    pre { white-space: pre-wrap; background: #f4f4f4; padding: 15px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Your Travel Suggestions</h2>
+
+<pre id="output"></pre>
+
+<script>
+  document.getElementById("output").textContent =
+    localStorage.getItem("ai_result") || "No data found.";
+</script>
+
+</body>
+</html>
