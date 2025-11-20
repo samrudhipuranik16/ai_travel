@@ -8,18 +8,19 @@ export default async function handler(req, res) {
   try {
     const { prompt } = req.body;
 
+    if (!prompt || prompt.trim() === "") {
+      return res.status(400).json({ error: "Prompt is required" });
+    }
+
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const result = await model.generateContent(prompt);
-    
-    // Correct way to access the response text
-    const response = await result.response;
-    const text = response.text();
+    const text = result.response.text(); // Correct method to get the response
 
     res.status(200).json({ reply: text });
   } catch (err) {
-    console.error(err);
+    console.error("❌ Gemini API error:", err);
     res.status(500).json({ error: err.message });
   }
 }

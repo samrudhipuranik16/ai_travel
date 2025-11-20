@@ -17,40 +17,41 @@
       <i class="fas fa-user" onclick="window.location.href='profile.html'"></i>
     </nav>
   </header>
-<main>
-<form class="book" onsubmit="handleForm(event)">
-    <label for="from">From:</label>
-    <input type="text" id="from" placeholder="Enter departure city" required>
 
-    <label for="to">To:</label>
-    <input type="text" id="to" placeholder="Enter destination city" required>
+  <main>
+    <form id="tripForm" class="book" onsubmit="handleForm(event)">
+      <label for="from">From:</label>
+      <input type="text" id="from" placeholder="Enter departure city" required>
 
-    <label for="start-date">Start Date:</label>
-    <input type="date" id="start-date" required>
+      <label for="to">To:</label>
+      <input type="text" id="to" placeholder="Enter destination city" required>
 
-    <label for="duration">Duration (days):</label>
-    <input type="number" id="duration" min="1" placeholder="Number of days" required>
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" required>
 
-    <label for="people">Number of People:</label>
-    <input type="number" id="people" min="1" placeholder="Number of travelers" required>
+      <label for="duration">Duration (days):</label>
+      <input type="number" id="duration" min="1" placeholder="Number of days" required>
 
-    <label for="vacation-type">Activities</label>
-    <select id="vacation-type" required>
-      <option value="">Select type</option>
-      <option>Aventural</option>
-      <option>Hiking</option>
-      <option>Nightlife</option>
-      <option>Sightseeing</option>
-      <option>Cultural</option>
-      <option>Food</option>
-      <option>beach</option>
-    </select>
+      <label for="people">Number of People:</label>
+      <input type="number" id="people" min="1" placeholder="Number of travelers" required>
 
-    <button type="submit">Submit</button>
-  </form>
-</main>
+      <label for="vacation-type">Activities</label>
+      <select id="vacation-type" required>
+        <option value="">Select type</option>
+        <option>Aventural</option>
+        <option>Hiking</option>
+        <option>Nightlife</option>
+        <option>Sightseeing</option>
+        <option>Cultural</option>
+        <option>Food</option>
+        <option>Beach</option>
+      </select>
 
-<script src="form.js"></script>
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <script src="form.js"></script>
 
 </body>
 </html>
