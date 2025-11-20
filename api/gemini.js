@@ -12,8 +12,10 @@ export default async function handler(req, res) {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const result = await model.generateContent(prompt);
-
-    const text = result.output?.[0]?.content?.[0]?.text || "No response";
+    
+    // Correct way to access the response text
+    const response = await result.response;
+    const text = response.text();
 
     res.status(200).json({ reply: text });
   } catch (err) {
