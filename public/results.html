@@ -4,133 +4,22 @@
   <meta charset="UTF-8">
   <title>Trip Results</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #000; /* black text */
-      padding: 20px;
-    }
-
-    header.header-bar {
-      background-color: #0077cc;
-      color: #fff;
-      padding: 10px 20px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .results-container {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .column {
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      min-width: 200px;
-      flex: 1;
-    }
-
-    .column h2 {
-      margin-top: 0;
-      font-size: 18px;
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-
-    .column ul {
-      list-style: disc;
-      padding-left: 20px;
-    }
-
-    button {
-      display: block;
-      margin: 30px auto 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background-color: #0077cc;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #005fa3;
-    }
-  </style>
 </head>
 <body>
-  <header class="header-bar">✈️ PlanVise</header>
+  <header class="header-bar">
+    <div class="logo">✈️ PlanVise</div>
+  </header>
 
   <main>
     <h1>AI Trip Suggestions</h1>
-    <div class="results-container" id="results"></div>
+    <pre id="results">Loading...</pre>
     <button onclick="window.history.back()">Back to Form</button>
   </main>
 
   <script>
-  const aiText = localStorage.getItem("ai_result") || `
-Hotels in Goa:
-- Goa Grand Hotel
-- Cozy Stay Goa
-- Luxury Suites Goa
-Restaurants in Goa:
-- The Goa Bistro
-- Food Paradise
-- Gourmet Hub
-Places to Visit in Goa:
-- Goa Museum
-- Central Park of Goa
-- Goa Historical Center
-`;
-
-  const container = document.getElementById("results");
-
-  // Normalize line breaks
-  const normalizedText = aiText.replace(/\r\n/g, "\n").trim();
-
-  // Split by section titles (Hotels, Restaurants, Places)
-  const sections = normalizedText.split(/(?=Hotels|Restaurants|Places)/);
-
-  sections.forEach(section => {
-    const lines = section.trim().split("\n");
-    if (lines.length > 1) {
-      const title = lines[0].replace(":", "");
-      const items = lines.slice(1).map(line => line.replace(/^- /, "").trim());
-
-      const col = document.createElement("div");
-      col.className = "column";
-
-      const h2 = document.createElement("h2");
-      h2.textContent = title;
-      col.appendChild(h2);
-
-      const ul = document.createElement("ul");
-      items.forEach(item => {
-        if(item) {
-          const li = document.createElement("li");
-          li.textContent = item;
-          ul.appendChild(li);
-        }
-      });
-
-      col.appendChild(ul);
-      container.appendChild(col);
-    }
-  });
-</script>
-
+    // Display AI response from localStorage
+    const results = localStorage.getItem("ai_result") || "No results found.";
+    document.getElementById("results").textContent = results;
+  </script>
 </body>
 </html>
