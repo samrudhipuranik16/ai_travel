@@ -137,7 +137,6 @@ Debug Info:
   };
 
   sessionStorage.setItem("ai_result", JSON.stringify(resultData));
-  console.log("💾 Stored in sessionStorage:", resultData);
 
   // Redirect to results page
   window.location.href = "results.html";
