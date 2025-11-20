@@ -81,41 +81,56 @@
   </main>
 
   <script>
-    const aiText = localStorage.getItem("ai_result") || "No results found.";
-    const container = document.getElementById("results");
+  const aiText = localStorage.getItem("ai_result") || `
+Hotels in Goa:
+- Goa Grand Hotel
+- Cozy Stay Goa
+- Luxury Suites Goa
+Restaurants in Goa:
+- The Goa Bistro
+- Food Paradise
+- Gourmet Hub
+Places to Visit in Goa:
+- Goa Museum
+- Central Park of Goa
+- Goa Historical Center
+`;
 
-    // Normalize line breaks and ensure proper separation
-    const normalizedText = aiText.replace(/\r\n/g, "\n").replace(/\n{2,}/g, "\n\n");
+  const container = document.getElementById("results");
 
-    // Split AI text into sections
-    const sections = normalizedText.split(/\n\s*\n/);
+  // Normalize line breaks
+  const normalizedText = aiText.replace(/\r\n/g, "\n").trim();
 
-    sections.forEach(section => {
-      const lines = section.trim().split("\n");
-      if (lines.length > 1) {
-        const title = lines[0].replace(":", "");
-        const items = lines.slice(1).map(line => line.replace(/^- /, "").trim());
+  // Split by section titles (Hotels, Restaurants, Places)
+  const sections = normalizedText.split(/(?=Hotels|Restaurants|Places)/);
 
-        const col = document.createElement("div");
-        col.className = "column";
+  sections.forEach(section => {
+    const lines = section.trim().split("\n");
+    if (lines.length > 1) {
+      const title = lines[0].replace(":", "");
+      const items = lines.slice(1).map(line => line.replace(/^- /, "").trim());
 
-        const h2 = document.createElement("h2");
-        h2.textContent = title;
-        col.appendChild(h2);
+      const col = document.createElement("div");
+      col.className = "column";
 
-        const ul = document.createElement("ul");
-        items.forEach(item => {
-          if(item) {
-            const li = document.createElement("li");
-            li.textContent = item;
-            ul.appendChild(li);
-          }
-        });
+      const h2 = document.createElement("h2");
+      h2.textContent = title;
+      col.appendChild(h2);
 
-        col.appendChild(ul);
-        container.appendChild(col);
-      }
-    });
-  </script>
+      const ul = document.createElement("ul");
+      items.forEach(item => {
+        if(item) {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ul.appendChild(li);
+        }
+      });
+
+      col.appendChild(ul);
+      container.appendChild(col);
+    }
+  });
+</script>
+
 </body>
 </html>
